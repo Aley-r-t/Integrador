@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -71,18 +72,56 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
 
+            //Esto cambiamos un poco
             override fun onResponse(call: Call, response: Response) {
-                val playlist = response.body?.string()
-                val parsedChannels = parsePlaylist(playlist)
+                // Ejecutar en un bloque try para capturar posibles errores
+                try {
+                    if (response.isSuccessful) {
+                        // Capturar el cuerpo de la respuesta en una variable
+                        val responseBody = response.body
+                        val playlist = responseBody?.string()
 
-                runOnUiThread {
-                    channels.clear()
-                    channels.addAll(parsedChannels)
-                    displayChannels()
-                    playChannel(currentChannelIndex)
+                        if (playlist != null && playlist.isNotBlank()) {
+                            // Parsear la lista de canales
+                            val parsedChannels = parsePlaylist(playlist)
+
+                            // Ejecutar actualizaciones en el hilo principal
+                            runOnUiThread {
+                                channels.clear()
+                                channels.addAll(parsedChannels)
+                                displayChannels()
+                                playChannel(currentChannelIndex)
+                            }
+                        } else {
+                            // Manejo del caso en que la respuesta no tiene contenido
+                            runOnUiThread {
+                                showError("La respuesta está vacía o no es válida.")
+                            }
+                        }
+
+                        // Cerrar el cuerpo de la respuesta
+                        responseBody?.close()
+                    } else {
+                        // Si la respuesta no es exitosa, mostrar un mensaje de error en el hilo principal
+                        runOnUiThread {
+                            showError("Error al obtener canales: ${response.message}")
+                        }
+                    }
+                } catch (e: Exception) {
+                    // En caso de excepción, manejar el error de manera adecuada
+                    e.printStackTrace()
+                    runOnUiThread {
+                        showError("Error procesando la respuesta: ${e.localizedMessage}")
+                    }
                 }
             }
+            // Función para mostrar mensajes de error
         })
+    }
+
+    private fun showError(message: String) {
+        // Aquí puedes mostrar un Toast, un Snackbar, o actualizar alguna vista de error
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun parsePlaylist(playlist: String?): List<Channel> {
@@ -92,13 +131,13 @@ class MainActivity : AppCompatActivity() {
             val lines = it.lines()
             var channelName = ""
             var logoUrl = ""
-            var streamUrl = ""
+            var streamUrl: String
 
             for (line in lines) {
                 if (line.startsWith("#EXTINF:")) {
                     channelName = line.substringAfter("tvg-id=\"").substringBefore("\"")
                     logoUrl = line.substringAfter("tvg-logo=\"").substringBefore("\"")
-                } else if (line.startsWith("http")) {
+                } else if (line.startsWith("https")) {
                     streamUrl = line
                     val channel = Channel(channelName, streamUrl, logoUrl)
                     channels.add(channel)

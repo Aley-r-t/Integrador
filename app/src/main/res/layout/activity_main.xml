@@ -7,13 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.MainActivity">
 
-
     <FrameLayout
         android:id="@+id/player_container"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="16dp"
-        >
+        android:layout_margin="16dp">
         <androidx.media3.ui.PlayerView
             android:id="@+id/player_view"
             android:layout_width="match_parent"
@@ -22,13 +20,15 @@
             android:fitsSystemWindows="true"
             app:use_controller="false"/>
     </FrameLayout>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:background="@color/amarillo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/player_container"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:contentDescription="canalesdetv">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view"
@@ -40,9 +40,8 @@
                 android:id="@+id/logo_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-               android:orientation="vertical">
-
-
+                android:orientation="vertical">
+                <!-- Aquí puedes agregar más elementos -->
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
