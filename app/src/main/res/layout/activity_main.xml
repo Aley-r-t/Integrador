@@ -43,6 +43,13 @@
                 android:orientation="vertical">
                 <!-- Aquí puedes agregar más elementos -->
             </LinearLayout>
+            <Button
+                android:id="@+id/btnTemporal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver más"
+                android:layout_gravity="end"
+                ></Button>
 
         </androidx.cardview.widget.CardView>
 

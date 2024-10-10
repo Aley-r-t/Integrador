@@ -1,5 +1,6 @@
 package com.kotlin.integrador.ui.home
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
@@ -56,6 +57,16 @@ class MainActivity : AppCompatActivity() {
         playerView.player = exoPlayer
 
         fetchChannelsList("https://iptv-org.github.io/iptv/languages/spa.m3u")
+
+        binding.btnTemporal.setOnClickListener {
+            goNewActivity()
+        }
+    }
+
+
+    private fun goNewActivity() {
+        val intent = Intent(this, MainActivity2::class.java)
+        startActivity(intent)
     }
 
 
@@ -146,7 +157,6 @@ class MainActivity : AppCompatActivity() {
         }
         return channels
     }
-
 
     private fun displayChannels() {
         logoContainer.removeAllViews()
