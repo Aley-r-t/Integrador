@@ -160,7 +160,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun displayChannels() {
         logoContainer.removeAllViews()
-
         channels.forEachIndexed { index, channel ->
             val logoView = createLogoView()
             logoContainer.addView(logoView)

@@ -52,6 +52,14 @@ dependencies {
     implementation("androidx.media3:media3-datasource-okhttp:$media3_version")
     implementation("androidx.media3:media3-session:$media3_version")
     implementation("androidx.media3:media3-exoplayer-hls:$media3_version")
+    //view Model
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    //fragment
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    //Activity
+    implementation("androidx.activity:activity-ktx:1.7.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
