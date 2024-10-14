@@ -60,6 +60,9 @@ dependencies {
 
     //Activity
     implementation("androidx.activity:activity-ktx:1.7.2")
+    //corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -7,17 +7,20 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 
-
 import com.kotlin.integrador.R
 import com.kotlin.integrador.databinding.ActivityMainBinding
 import androidx.media3.ui.PlayerView
 import com.bumptech.glide.Glide
+import com.kotlin.integrador.data.model.IptvModel
+import com.kotlin.integrador.data.model.IptvProvider
+import com.kotlin.integrador.data.viewmodel.IptvViewModel
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -31,9 +34,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var playerView: PlayerView
     private lateinit var logoContainer: LinearLayout
+    private val IptvModel = mutableListOf<IptvModel>()
 
-    private val channels = mutableListOf<Channel>()
+
     private var currentChannelIndex = 0
+
+    private val IptvViewModel: IptvViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +69,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun goNewActivity() {
         val intent = Intent(this, MainActivity2::class.java)
         startActivity(intent)
     }
 
-
+    //Esta logica la lleve a IptvViewModel
     private fun fetchChannelsList(playlistUrl: String) {
         val client = OkHttpClient()
 
@@ -94,12 +99,12 @@ class MainActivity : AppCompatActivity() {
 
                         if (playlist != null && playlist.isNotBlank()) {
                             // Parsear la lista de canales
-                            val parsedChannels = parsePlaylist(playlist)
+                            val parsedChannels = IptvProvider.Iptvchannels(playlist)
 
                             // Ejecutar actualizaciones en el hilo principal
                             runOnUiThread {
-                                channels.clear()
-                                channels.addAll(parsedChannels)
+                                IptvModel.clear()
+                                IptvModel.addAll(parsedChannels)
                                 displayChannels()
                                 playChannel(currentChannelIndex)
                             }
@@ -135,32 +140,32 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun parsePlaylist(playlist: String?): List<Channel> {
-        val channels = mutableListOf<Channel>()
+   //private fun parsePlaylist(playlist: String?): List<Channel> {
+    //    val channels = mutableListOf<Channel>()
 
-        playlist?.let {
-            val lines = it.lines()
-            var channelName = ""
-            var logoUrl = ""
-            var streamUrl: String
+      //  playlist?.let {
+    //        val lines = it.lines()
+   //         var channelName = ""
+   //         var logoUrl = ""
+   //         var streamUrl: String
 
-            for (line in lines) {
-                if (line.startsWith("#EXTINF:")) {
-                    channelName = line.substringAfter("tvg-id=\"").substringBefore("\"")
-                    logoUrl = line.substringAfter("tvg-logo=\"").substringBefore("\"")
-                } else if (line.startsWith("https")) {
-                    streamUrl = line
-                    val channel = Channel(channelName, streamUrl, logoUrl)
-                    channels.add(channel)
-                }
-            }
-        }
-        return channels
-    }
+    //        for (line in lines) {
+    //            if (line.startsWith("#EXTINF:")) {
+    //                channelName = line.substringAfter("tvg-id=\"").substringBefore("\"")
+    //                logoUrl = line.substringAfter("tvg-logo=\"").substringBefore("\"")
+    //            } else if (line.startsWith("https")) {
+    //                streamUrl = line
+    //                val channel = Channel(channelName, streamUrl, logoUrl)
+    //                channels.add(channel)
+      //          }
+     //       }
+    //    }
+      //  return channels
+   //}
 
     private fun displayChannels() {
         logoContainer.removeAllViews()
-        channels.forEachIndexed { index, channel ->
+        IptvModel.forEachIndexed { index, channel ->
             val logoView = createLogoView()
             logoContainer.addView(logoView)
             loadLogo(logoView, channel.logoUrl)
@@ -190,10 +195,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun playChannel(channelIndex: Int) {
-        if (channelIndex in channels.indices) {
+        if (channelIndex in IptvModel.indices) {
             currentChannelIndex = channelIndex
-            val channel = channels[channelIndex]
-            val mediaItem = MediaItem.fromUri(Uri.parse(channel.channelUrl))
+            val channel = IptvModel[channelIndex]
+            val mediaItem = MediaItem.fromUri(Uri.parse(channel.streamUrl))
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
             exoPlayer.play()
@@ -205,5 +210,4 @@ class MainActivity : AppCompatActivity() {
         exoPlayer.release()
     }
 
-    data class Channel(val name: String, val channelUrl: String, val logoUrl: String)
 }

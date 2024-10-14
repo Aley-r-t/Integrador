@@ -1,7 +1,10 @@
 package com.kotlin.integrador.data.model
 
+import android.util.Log
+
 class IptvProvider {
-    private fun Iptvchannels(parseplayList: String?): List<IptvModel> {
+    companion object {
+     fun Iptvchannels(parseplayList: String?): List<IptvModel> {
         val IptvplayList = mutableListOf<IptvModel>()
         parseplayList?.let {
             val lines = it.lines()
@@ -21,6 +24,8 @@ class IptvProvider {
                 }
             }
         }
+         Log.d("IptvProvider", "Iptvchannels: $IptvplayList")
         return IptvplayList
+    }
     }
 }
