@@ -7,98 +7,112 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-
-import com.kotlin.integrador.R
-import com.kotlin.integrador.databinding.ActivityMainBinding
 import androidx.media3.ui.PlayerView
 import com.bumptech.glide.Glide
+import com.kotlin.integrador.R
+import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.model.IptvModel
 import com.kotlin.integrador.data.viewmodel.IptvViewModel
 
-
 class MainActivity : AppCompatActivity() {
+    // ViewBinding
     private lateinit var binding: ActivityMainBinding
+
+    // Player and UI Elements
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var playerView: PlayerView
     private lateinit var logoContainer: LinearLayout
-    private val IptvModel = mutableListOf<IptvModel>()
-    private val IptvViewModel = IptvViewModel()
 
+    // Data Models
+    private val iptvModelList = mutableListOf<IptvModel>()
+    private val iptvViewModel = IptvViewModel()
+
+    // Current Channel Index
     private var currentChannelIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setupViewBinding()
+        setupWindowInsets()
+        initializeUIElements()
+        initializePlayer()
+        setupButtonListeners()
+        fetchChannels()
+    }
 
-        //inflate el layout usando Binding
+    private fun setupViewBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
 
+    private fun setupWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+
+    private fun initializeUIElements() {
         playerView = binding.playerView
         logoContainer = binding.logoContainer
+    }
 
+    private fun initializePlayer() {
         exoPlayer = ExoPlayer.Builder(this).build()
         playerView.player = exoPlayer
+    }
 
-        //fetchChannelsList("https://iptv-org.github.io/iptv/languages/spa.m3u")
-        fetchChannels()
-
+    private fun setupButtonListeners() {
         binding.btnTemporal.setOnClickListener {
             goNewActivity()
         }
     }
 
-    private fun goNewActivity() {
-        val intent = Intent(this, MainActivity2::class.java)
-        startActivity(intent)
-    }
-
     private fun fetchChannels() {
-        // Delegate the network call and data processing to the ViewModel
-        IptvViewModel.fetchChannelsList("https://iptv-org.github.io/iptv/languages/spa.m3u", onSuccess =  { channels ->
-            // Update UI with obtained channels on success
-            runOnUiThread{
-                IptvModel.clear()
-                IptvModel.addAll(channels)
-                displayChannels()
-                playChannel(currentChannelIndex)
-            }
-        },
+        iptvViewModel.fetchChannelsList(
+            "https://iptv-org.github.io/iptv/languages/spa.m3u",
+            onSuccess = { channels ->
+                handleFetchSuccess(channels)
+            },
             onError = { error ->
-                runOnUiThread {
-                    // Show an error message to the user on failure
-                    showError(error)
-                }
+                handleFetchError(error)
             }
         )
     }
 
+    private fun handleFetchSuccess(channels: List<IptvModel>) {
+        runOnUiThread {
+            updateChannelList(channels)
+            displayChannels()
+            playChannel(currentChannelIndex)
+        }
+    }
 
-    private fun showError(message: String) {
-        // Aquí puedes mostrar un Toast, un Snackbar, o actualizar alguna vista de error
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    private fun handleFetchError(error: String) {
+        runOnUiThread {
+            showError(error)
+        }
+    }
+
+    private fun updateChannelList(channels: List<IptvModel>) {
+        iptvModelList.clear()
+        iptvModelList.addAll(channels)
     }
 
     private fun displayChannels() {
         logoContainer.removeAllViews()
-        IptvModel.forEachIndexed { index, channel ->
+        iptvModelList.forEachIndexed { index, channel ->
             val logoView = createLogoView()
             logoContainer.addView(logoView)
             loadLogo(logoView, channel.logoUrl)
-            logoView.setOnClickListener {
-                playChannel(index)
-            }
+            setupLogoClickListener(logoView, index)
         }
     }
 
@@ -120,10 +134,16 @@ class MainActivity : AppCompatActivity() {
             .into(imageView)
     }
 
+    private fun setupLogoClickListener(logoView: ImageView, index: Int) {
+        logoView.setOnClickListener {
+            playChannel(index)
+        }
+    }
+
     private fun playChannel(channelIndex: Int) {
-        if (channelIndex in IptvModel.indices) {
+        if (channelIndex in iptvModelList.indices) {
             currentChannelIndex = channelIndex
-            val channel = IptvModel[channelIndex]
+            val channel = iptvModelList[channelIndex]
             val mediaItem = MediaItem.fromUri(Uri.parse(channel.streamUrl))
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
@@ -131,9 +151,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        exoPlayer.release()
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
+    private fun goNewActivity() {
+        val intent = Intent(this, MainActivity2::class.java)
+        startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releasePlayer()
+    }
+
+    private fun releasePlayer() {
+        exoPlayer.release()
+    }
 }
