@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.MainActivity">
 
     <FrameLayout
@@ -21,47 +22,21 @@
             app:use_controller="false"/>
     </FrameLayout>
 
-    <ScrollView
-        android:id="@+id/scroll_view"
-        android:background="@color/amarillo"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/player_container"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:padding="16dp"
-        android:contentDescription="canalesdetv">
+        android:background="@color/amarillo"
+        android:contentDescription="canalesdetv" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+    <Button
+        android:id="@+id/btnTemporal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver más"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="end" />
 
-            <LinearLayout
-                android:id="@+id/logo_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!-- Aquí puedes agregar más elementos -->
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/list_iptv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-            </TextView>
-            <Button
-                android:id="@+id/btnTemporal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver más"
-                android:layout_gravity="end"
-                ></Button>
-
-        </androidx.cardview.widget.CardView>
-
-    </ScrollView>
-
-</RelativeLayout>
+</LinearLayout>
