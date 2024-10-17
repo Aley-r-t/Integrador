@@ -24,7 +24,6 @@ class IptvProvider {
                 }
             }
         }
-         Log.d("IptvProvider", "Iptvchannels: $IptvplayList")
         return IptvplayList
     }
     }

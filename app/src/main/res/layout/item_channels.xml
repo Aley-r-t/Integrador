@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/iptv_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/iptv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Hola xD"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iptv_logo"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/iptv_categori"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Categoria"
+        app:layout_constraintTop_toBottomOf="@+id/iptv_name"
+        app:layout_constraintStart_toEndOf="@id/iptv_logo"
+        >
+
+    </TextView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
