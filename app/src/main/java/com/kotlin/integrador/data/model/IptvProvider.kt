@@ -1,7 +1,5 @@
 package com.kotlin.integrador.data.model
 
-import android.util.Log
-
 class IptvProvider {
     companion object {
      fun Iptvchannels(parseplayList: String?): List<IptvModel> {

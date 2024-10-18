@@ -1,31 +1,29 @@
 package com.kotlin.integrador.ui.home
 
+import PlayerManager
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.adapter.IptvAdapter
 import com.kotlin.integrador.data.model.IptvModel
 import com.kotlin.integrador.data.viewmodel.IptvViewModel
-import com.kotlin.integrador.data.network.NetworkConstants
+import com.kotlin.integrador.data.repository.ChannelRepository
 
 class MainActivity : AppCompatActivity() {
     // ViewBinding
     private lateinit var binding: ActivityMainBinding
 
-    // Player
-    private lateinit var exoPlayer: ExoPlayer
+    // Player Manager
+    private lateinit var playerManager: PlayerManager
 
     // Data Models
-    private val iptvViewModel = IptvViewModel()
+    private val channelRepository = ChannelRepository()
 
     // Current Channel Index
     private var currentChannelIndex = 0
@@ -35,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setupViewBinding()
         setupWindowInsets()
-        initializePlayer()
+        initializePlayerManager()
         setupRecyclerView()
         setupButtonListeners()
         fetchChannels()
@@ -54,9 +52,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializePlayer() {
-        exoPlayer = ExoPlayer.Builder(this).build()
-        binding.playerView.player = exoPlayer
+    private fun initializePlayerManager() {
+        playerManager = PlayerManager(this, binding.playerView)
     }
 
     private fun setupRecyclerView() {
@@ -70,8 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchChannels() {
-        iptvViewModel.fetchChannelsList(
-            NetworkConstants.IPTV_CHANNELS_URL,
+        channelRepository.fetchChannelsList(
             onSuccess = { channels ->
                 handleFetchSuccess(channels)
             },
@@ -98,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleFetchError(error: String) {
         runOnUiThread {
-            showError(error)
+            showMessage(error)
         }
     }
 
@@ -106,14 +102,11 @@ class MainActivity : AppCompatActivity() {
         if (channelIndex in 0 until (binding.recyclerView.adapter?.itemCount ?: 0)) {
             currentChannelIndex = channelIndex
             val channel = (binding.recyclerView.adapter as IptvAdapter).getChannel(channelIndex)
-            val mediaItem = MediaItem.fromUri(Uri.parse(channel.streamUrl))
-            exoPlayer.setMediaItem(mediaItem)
-            exoPlayer.prepare()
-            exoPlayer.play()
+            playerManager.play(channel.streamUrl)
         }
     }
 
-    private fun showError(message: String) {
+    private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
@@ -124,10 +117,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        releasePlayer()
-    }
-
-    private fun releasePlayer() {
-        exoPlayer.release()
+        playerManager.releasePlayer()
     }
 }
