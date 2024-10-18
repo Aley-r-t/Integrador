@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group>
+    <item
+        android:id="@+id/nav_create_account"
+        android:title="Create Account or login" />
+
+    <item
+        android:id="@+id/nav_categories"
+        android:title="Categories"
+        />
+
+    <item
+        android:id="@+id/nav_endpoint"
+        android:title="Your endpoint" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings" />
+
+</group>
+
+    <item android:title="Title1">
+        <menu>
+            <item android:id="@+id/nav_item_six"
+                android:title="Item6">
+
+            </item>
+            <item android:id="@+id/nav_item_seven"
+                android:title="Item7">
+
+            </item>
+
+        </menu>
+
+    </item>
+
+</menu>

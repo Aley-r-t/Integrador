@@ -62,6 +62,10 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
     //corrutinas
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    //drawer Layout
+    implementation("androidx.drawerlayout:drawerlayout:1.2.0")
+    //Cordinator
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
 
 
     implementation(libs.androidx.core.ktx)
