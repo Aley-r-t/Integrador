@@ -15,6 +15,7 @@ import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.adapter.IptvAdapter
 import com.kotlin.integrador.data.model.IptvModel
 import com.kotlin.integrador.data.viewmodel.IptvViewModel
+import com.kotlin.integrador.data.network.NetworkConstants
 
 class MainActivity : AppCompatActivity() {
     // ViewBinding
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchChannels() {
         iptvViewModel.fetchChannelsList(
-            "https://iptv-org.github.io/iptv/languages/spa.m3u",
+            NetworkConstants.IPTV_CHANNELS_URL,
             onSuccess = { channels ->
                 handleFetchSuccess(channels)
             },
