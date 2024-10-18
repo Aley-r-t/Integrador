@@ -8,11 +8,39 @@
     android:orientation="vertical"
     tools:context=".ui.home.MainActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mainAmburguesa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_amburguesa"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/mainTvConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tv_desconect"
+            android:layout_marginEnd="17dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     <FrameLayout
         android:id="@+id/player_container"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="16dp">
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+
         <androidx.media3.ui.PlayerView
             android:id="@+id/player_view"
             android:layout_width="match_parent"
@@ -22,10 +50,36 @@
             app:use_controller="false"/>
     </FrameLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/tvLock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tv_unlock"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/tvFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tv_favorites"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="17dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
         android:padding="16dp"
         android:background="@color/amarillo"

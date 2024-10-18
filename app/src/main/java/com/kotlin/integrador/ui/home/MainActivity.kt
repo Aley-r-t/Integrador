@@ -11,7 +11,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kotlin.integrador.R
 import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.adapter.IptvAdapter
 import com.kotlin.integrador.data.model.IptvModel
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun setupButtonListeners() {
