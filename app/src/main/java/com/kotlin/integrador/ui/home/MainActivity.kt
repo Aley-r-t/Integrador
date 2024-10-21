@@ -21,6 +21,7 @@ import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.adapter.IptvAdapter
 import com.kotlin.integrador.data.model.IptvModel
 import com.kotlin.integrador.data.repository.ChannelRepository
+import com.kotlin.integrador.ui.newendpoint.NewEndpoint
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         initializePlayerManager()
         setupRecyclerView()
-        setupButtonListeners()
+
         fetchChannels()
     }
 
@@ -82,7 +83,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_create_account -> Toast.makeText(this,"Item 1", Toast.LENGTH_SHORT).show()
             R.id.nav_categories -> Toast.makeText(this,"Item 2",Toast.LENGTH_SHORT).show()
-            R.id.nav_endpoint -> Toast.makeText(this,"Item 3",Toast.LENGTH_SHORT).show()
+            R.id.nav_endpoint -> {
+                val intent = Intent(this, NewEndpoint::class.java)
+                startActivity(intent)
+            }
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
@@ -115,11 +119,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun setupButtonListeners() {
-        binding.btnTemporal.setOnClickListener {
-            goNewActivity()
-        }
-    }
+
 
     private fun fetchChannels() {
         channelRepository.fetchChannelsList(

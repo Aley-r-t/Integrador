@@ -2,6 +2,14 @@
     <string name="app_name">NotWatch</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="title_endpoint">Agregar tu endpoint</string>
+    <string name="input_playlist">Nombre de playlist (Opcional)</string>
+    <string name="input_user_endpoint">Nombre de usuario</string>
+    <string name="input_user_password">Contraseña</string>
+    <string name="input_url_endpoint">Servidor:http://ejemplo.com:8080</string>
+    <string name="btn_agregar_endpoint">Agregar</string>
+    <string name="txt_yourEndoint">Your endepoint</string>
+
 
 
 </resources>
