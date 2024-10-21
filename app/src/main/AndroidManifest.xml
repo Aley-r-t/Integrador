@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Integrador"
         tools:targetApi="31">
         <activity
+            android:name=".ui.newendpoint.NewEndpoint"
+            android:exported="false" />
+        <activity
             android:name=".ui.home.MainActivity2"
             android:exported="false" />
         <activity

@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Integrador</string>
+    <string name="app_name">NotWatch</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-
 
 
 </resources>
