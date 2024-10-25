@@ -20,6 +20,7 @@ import com.kotlin.integrador.R
 import com.kotlin.integrador.databinding.ActivityMainBinding
 import com.kotlin.integrador.data.adapter.IptvAdapter
 import com.kotlin.integrador.data.model.IptvModel
+import com.kotlin.integrador.data.playerservices.PlayerService
 import com.kotlin.integrador.data.repository.ChannelRepository
 import com.kotlin.integrador.ui.newendpoint.NewEndpoint
 
@@ -27,16 +28,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var drawer: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
-    // ViewBinding
     private lateinit var binding: ActivityMainBinding
-
-    // Player Manager
     private lateinit var playerManager: PlayerManager
-
-    // Data Models
+    private lateinit var playerService: PlayerService
     private val channelRepository = ChannelRepository()
-
-    // Current Channel Index
     private var currentChannelIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
         when (item.itemId) {
             R.id.nav_create_account -> Toast.makeText(this,"Item 1", Toast.LENGTH_SHORT).show()
             R.id.nav_categories -> Toast.makeText(this,"Item 2",Toast.LENGTH_SHORT).show()
@@ -110,16 +104,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onOptionsItemSelected(item)
     }
 
-
     private fun initializePlayerManager() {
         playerManager = PlayerManager(this, binding.playerView)
+        playerService = PlayerService(playerManager)
     }
 
     private fun setupRecyclerView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
-
-
 
     private fun fetchChannels() {
         channelRepository.fetchChannelsList(
@@ -157,17 +149,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (channelIndex in 0 until (binding.recyclerView.adapter?.itemCount ?: 0)) {
             currentChannelIndex = channelIndex
             val channel = (binding.recyclerView.adapter as IptvAdapter).getChannel(channelIndex)
-            playerManager.play(channel.streamUrl)
+            playerService.playChannel(channel)
         }
     }
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun goNewActivity() {
-        val intent = Intent(this, MainActivity2::class.java)
-        startActivity(intent)
     }
 
     override fun onDestroy() {

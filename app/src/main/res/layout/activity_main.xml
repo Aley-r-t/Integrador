@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- RecyclerView para la Lista de Canales -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -78,7 +78,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <!-- Panel de Navegación Lateral / Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
