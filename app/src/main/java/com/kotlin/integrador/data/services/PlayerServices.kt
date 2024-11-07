@@ -1,4 +1,4 @@
-package com.kotlin.integrador.data.playerservices
+package com.kotlin.integrador.data.services
 
 import PlayerManager
 import com.kotlin.integrador.data.model.IptvModel

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kotlin.integrador.data.model.IptvModel
-import com.kotlin.integrador.data.playerservices.PlayerService
+import com.kotlin.integrador.data.services.PlayerService
 import com.kotlin.integrador.data.repository.ChannelRepository
 
 class ChannelViewModel(
