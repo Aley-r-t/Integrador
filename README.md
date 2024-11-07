@@ -31,7 +31,7 @@ La aplicación está siendo construida con tecnologías modernas que garantizan 
 
 - **Consumo de API del repositorio de IPTV:** Utilizamos llamadas API eficientes para consumir los datos actualizados del repositorio de [iptv-org/iptv](https://github.com/iptv-org/iptv), permitiendo que la aplicación siempre muestre el contenido más reciente.
 - **Soporte para listas de reproducción M3U:** El formato M3U es soportado para reproducir canales de TV y películas, permitiendo a los usuarios acceder a su contenido con facilidad desde cualquier dispositivo compatible.
-- **Compatibilidad multiplataforma:** La aplicación ha sido desarrollada para ser compatible con diferentes sistemas operativos, incluidos Android, iOS, Windows, y Linux, permitiendo que los usuarios disfruten de su contenido desde cualquier dispositivo.
+**Compatibilidad con Android:** La aplicación está desarrollada para ser compatible solo con dispositivos Android, permitiendo que los usuarios disfruten de su contenido desde sus dispositivos móviles.
 - **Streaming optimizado:** La aplicación asegura una transmisión de video fluida mediante una gestión optimizada del ancho de banda y la capacidad de ajustar la calidad de transmisión según la conexión del usuario.
 
 ## 4. **Cómo Funciona la Aplicación**
