@@ -31,7 +31,7 @@ La aplicación está siendo construida con tecnologías modernas que garantizan 
 
 - **Consumo de API del repositorio de IPTV:** Utilizamos llamadas API eficientes para consumir los datos actualizados del repositorio de [iptv-org/iptv](https://github.com/iptv-org/iptv), permitiendo que la aplicación siempre muestre el contenido más reciente.
 - **Soporte para listas de reproducción M3U:** El formato M3U es soportado para reproducir canales de TV y películas, permitiendo a los usuarios acceder a su contenido con facilidad desde cualquier dispositivo compatible.
-**Compatibilidad:** La aplicación está desarrollada para ser compatible con dispositivos Android y plataformas Web, permitiendo que los usuarios disfruten de su contenido desde sus dispositivos móviles.
+- **Compatibilidad** La aplicación está desarrollada para ser compatible en web y en movil, permitiendo que los usuarios disfruten de su contenido desde sus dispositivos móviles o computador con internet.
 - **Streaming optimizado:** La aplicación asegura una transmisión de video fluida mediante una gestión optimizada del ancho de banda y la capacidad de ajustar la calidad de transmisión según la conexión del usuario.
 
 ## 4. **Cómo Funciona la Aplicación**
@@ -50,8 +50,8 @@ Este proyecto es un esfuerzo colaborativo, en el que trabajamos en equipo para d
 - **Backend (Autenticación y Servicios):** Desarrollado en **Spring Boot**, responsable de la gestión segura de usuarios y la comunicación eficiente entre el frontend y los servicios de contenido.
 
 **Colaboradores:**
-- Erick Galindo [Erick/proyect_react](https://github.com/ErickGC546/Proyec-React).
-- Alex Huancahuari [Alex/proyect_SpringBoot](https://github.com/livecodingx/PI_2_2024_4C24_noWatch) 
+- Erick Galindo [Erick/proyect_react](https://github.com/ErickGC546/Proyec-React) (Frontend en Web).
+- Alex Huancahuari [Alex/proyect_SpringBoot](https://github.com/livecodingx/PI_2_2024_4C24_noWatch) (Backend del todo el proyecto).  
 
 ## 6. **Perspectivas Futuras**
 
